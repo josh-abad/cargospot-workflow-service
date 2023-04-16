@@ -43,6 +43,27 @@ public class FieldValue {
         return numberValue;
     }
 
+    public boolean isGreaterThan(FieldValue other) {
+        return numberValue.compareTo(other.numberValue) > 0;
+    }
+
+    public boolean isLessThan(FieldValue other) {
+        return numberValue.compareTo(other.numberValue) < 0;
+    }
+
+    public boolean isEquals(FieldValue other) {
+        if (isText() && other.isText()) {
+            return textValue.equals(other.textValue);
+        } else if (isNumber() && other.isNumber()) {
+            return numberValue.compareTo(other.numberValue) == 0;
+        }
+        throw new IllegalArgumentException("Cannot compare " + type + " with " + other.type);
+    }
+
+    public boolean isNotEquals(FieldValue other) {
+        return !isEquals(other);
+    }
+
     enum Type {
         TEXT, NUMBER
     }

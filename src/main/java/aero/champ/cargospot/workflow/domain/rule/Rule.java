@@ -1,27 +1,34 @@
 package aero.champ.cargospot.workflow.domain.rule;
 
-import aero.champ.cargospot.workflow.domain.conditions.Condition;
-import aero.champ.cargospot.workflow.domain.event.AbstractEvent;
+import aero.champ.cargospot.workflow.domain.condition.Condition;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 public class Rule {
 
-    private final AbstractEvent event;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private final Condition condition;
+    private String ruleName;
 
-    public Rule(AbstractEvent event, Condition condition) {
-        this.event = event;
-        this.condition = condition;
+    private String eventName;
+
+    @OneToMany(mappedBy = "condition")
+    private List<Condition> conditions;
+
+    public String getRuleName() {
+        return ruleName;
     }
 
-    public boolean forEvent(AbstractEvent event) {
-        return this.event.eventName().equals(event.eventName());
+    public String getEventName() {
+        return eventName;
     }
 
-    public void execute() {
-        if (condition.evaluateAll(event)) {
-            System.out.println("Conditions are met");
-            System.out.println("Performing actions");
-        }
+    public List<Condition> getConditions() {
+        return new ArrayList<>(conditions);
     }
 }

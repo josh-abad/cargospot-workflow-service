@@ -20,6 +20,10 @@ public class Rule {
     @OneToMany(mappedBy = "condition")
     private List<Condition> conditions;
 
+    public Long getId() {
+        return id;
+    }
+
     public String getRuleName() {
         return ruleName;
     }

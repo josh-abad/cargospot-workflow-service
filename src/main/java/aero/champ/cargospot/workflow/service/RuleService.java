@@ -6,6 +6,7 @@ import aero.champ.cargospot.workflow.repository.RuleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RuleService {
@@ -26,5 +27,21 @@ public class RuleService {
                 // TODO: execute actions
             }
         }
+    }
+
+    public Rule createRule(Rule newRule) {
+        return ruleRepository.save(newRule);
+    }
+
+    public Iterable<Rule> getAllRules() {
+        return ruleRepository.findAll();
+    }
+
+    public Optional<Rule> getRule(Long id) {
+        return ruleRepository.findById(id);
+    }
+
+    public void deleteRule(Long id) {
+        ruleRepository.deleteById(id);
     }
 }

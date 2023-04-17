@@ -1,8 +1,10 @@
 package aero.champ.cargospot.workflow.service;
 
 import aero.champ.cargospot.workflow.domain.condition.Condition;
-import aero.champ.cargospot.workflow.domain.event.AbstractEvent;
-import aero.champ.cargospot.workflow.domain.event.FieldValue;
+import aero.champ.cargospot.workflow.domain.event.*;
+import aero.champ.cargospot.workflow.domain.event.fields.IField;
+import aero.champ.cargospot.workflow.domain.event.fields.NumberField;
+import aero.champ.cargospot.workflow.domain.event.fields.TextField;
 import aero.champ.cargospot.workflow.repository.ConditionRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ public class ConditionService {
             case NOT_EQUALS -> field.isNotEquals(value);
             case GREATER_THAN -> field.isGreaterThan(value);
             case LESS_THAN -> field.isLessThan(value);
+            case IS_EMPTY -> field.isEmpty();
         };
     }
 
@@ -37,10 +40,15 @@ public class ConditionService {
         return true;
     }
 
-    private FieldValue getValue(Condition condition) {
+    @SuppressWarnings("unchecked")
+    private <V> IField<V> getValue(Condition condition) {
         if (condition.getType() == Condition.Type.NUMBER) {
-            return FieldValue.ofNumber(condition.getFieldName(), new BigDecimal(condition.getValue()));
+            BigDecimal value = BigDecimal.ZERO;
+            if (!condition.getValue().isBlank()) {
+                value = new BigDecimal(condition.getValue());
+            }
+            return (IField<V>) NumberField.of(condition.getFieldName(), value);
         }
-        return FieldValue.ofText(condition.getFieldName(), condition.getValue());
+        return (IField<V>) TextField.of(condition.getFieldName(), condition.getValue());
     }
 }

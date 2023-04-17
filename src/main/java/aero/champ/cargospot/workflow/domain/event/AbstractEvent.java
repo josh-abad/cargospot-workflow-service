@@ -1,5 +1,8 @@
 package aero.champ.cargospot.workflow.domain.event;
 
+import aero.champ.cargospot.workflow.domain.event.fields.IField;
+import aero.champ.cargospot.workflow.domain.event.fields.NumberField;
+import aero.champ.cargospot.workflow.domain.event.fields.TextField;
 import org.reflections.Reflections;
 import org.reflections.Store;
 import org.reflections.util.QueryFunction;
@@ -18,7 +21,8 @@ public abstract class AbstractEvent {
      * @return the value of the field
      * @throws InvalidFieldNameException if the field name is not found in the event
      */
-    public FieldValue getField(String fieldName) {
+    @SuppressWarnings("unchecked")
+    public <V> IField<V> getField(String fieldName) {
         var reflections = new Reflections();
         QueryFunction<Store, Field> query = Fields.of(this.getClass(), field -> field.isAnnotationPresent(EventField.class)).as(Field.class);
         Field field = reflections.get(query)
@@ -31,9 +35,9 @@ public abstract class AbstractEvent {
             field.setAccessible(true);
             Object value = field.get(this);
             if (fieldAnnotation.type() == EventField.Type.NUMBER && value instanceof BigDecimal number) {
-                return FieldValue.ofNumber(fieldName, number);
+                return (IField<V>) NumberField.of(fieldName, number);
             }
-            return FieldValue.ofText(fieldName, (String) value);
+            return (IField<V>) TextField.of(fieldName, (String) value);
         } catch (IllegalAccessException e) {
             throw new InvalidFieldNameException(fieldName, this.getClass().getSimpleName(), e);
         }

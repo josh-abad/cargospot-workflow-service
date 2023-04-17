@@ -15,15 +15,23 @@ public class RuleService {
 
     private final ConditionService conditionService;
 
-    public RuleService(RuleRepository ruleRepository, ConditionService conditionService) {
+    private final EmailService emailService;
+
+    public RuleService(RuleRepository ruleRepository, ConditionService conditionService, EmailService emailService) {
         this.ruleRepository = ruleRepository;
         this.conditionService = conditionService;
+        this.emailService = emailService;
     }
 
     public void executeRulesFor(AbstractEvent event) {
         List<Rule> rules = ruleRepository.findByEventName(event.eventName());
         for (Rule rule : rules) {
             if (conditionService.evaluateAll(rule.getConditions(), event)) {
+                emailService.sendEmail(
+                        "joshuatimothy.abad@champ.aero",
+                        "Action Executed",
+                        String.format("Rule Name: %s ", rule.getRuleName())
+                );
                 // TODO: execute actions
             }
         }
@@ -37,11 +45,11 @@ public class RuleService {
         return ruleRepository.findAll();
     }
 
-    public Optional<Rule> getRule(Long id) {
+    public Optional<Rule> getRule(String id) {
         return ruleRepository.findById(id);
     }
 
-    public void deleteRule(Long id) {
+    public void deleteRule(String id) {
         ruleRepository.deleteById(id);
     }
 }

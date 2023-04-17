@@ -53,7 +53,7 @@ public class EventProcessor {
                 EventField eventField = field.getAnnotation(EventField.class);
                 return new EventFieldDto(field.getName(), eventField.name(), eventField.type());
             }).toList();
-            events.add(new EventDto(event.id(), event.name(), eventFields));
+            events.add(new EventDto(event.name(), eventFields));
         }
 
         return events;

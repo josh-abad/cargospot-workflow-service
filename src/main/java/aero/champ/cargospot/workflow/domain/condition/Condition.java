@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 public class Condition {
 
     @Id
-    private Long id;
+    private String id;
 
     private String fieldName;
 
@@ -57,6 +57,8 @@ public class Condition {
         EQUALS,
         NOT_EQUALS,
         GREATER_THAN,
-        LESS_THAN
+        LESS_THAN,
+        /** Empty string, zero, or null */
+        IS_EMPTY
     }
 }

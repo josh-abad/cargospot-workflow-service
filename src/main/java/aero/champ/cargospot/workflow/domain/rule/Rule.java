@@ -9,7 +9,7 @@ import java.util.List;
 public class Rule {
 
     @Id
-    private Long id;
+    private String id;
 
     private String ruleName;
 
@@ -17,7 +17,7 @@ public class Rule {
 
     private List<Condition> conditions;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

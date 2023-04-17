@@ -1,6 +1,6 @@
 package aero.champ.cargospot.workflow.domain.event;
 
-@Event(id = 2, name = "Flight is updated")
+@Event(name = "Flight is updated")
 public class FlightUpdatedEvent extends AbstractEvent {
 
     @EventField(name = "Flight Number")

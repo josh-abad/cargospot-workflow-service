@@ -9,7 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Event {
 
-    long id() default 0L;
-
     String name();
 }

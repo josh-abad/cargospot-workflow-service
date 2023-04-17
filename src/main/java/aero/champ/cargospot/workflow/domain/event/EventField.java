@@ -14,6 +14,6 @@ public @interface EventField {
     Type type() default Type.TEXT;
 
     enum Type {
-        TEXT, NUMBER
+        TEXT, DATE_TIME, NUMBER
     }
 }

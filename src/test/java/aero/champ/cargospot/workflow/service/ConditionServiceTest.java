@@ -201,4 +201,54 @@ class ConditionServiceTest {
         var event = new CreateBookingEvent("131-1234567", new BigDecimal("43.0"), "MAL");
         assertFalse(conditionService.evaluateAll(List.of(firstCondition, secondCondition), event));
     }
+
+    @Test
+    void shouldPassIsEmptyEvaluationWithText() {
+        var condition = new Condition();
+        condition.setFieldName("priority");
+        condition.setOperator(Condition.Operator.IS_EMPTY);
+        condition.setType(Condition.Type.TEXT);
+        condition.setValue("");
+
+        var event = new CreateBookingEvent("131-1234567", new BigDecimal("43.0"), "MAL");
+        event.setPriority(null);
+        assertTrue(conditionService.evaluate(condition, event));
+    }
+
+    @Test
+    void shouldFailIsEmptyEvaluationWithText() {
+        var condition = new Condition();
+        condition.setFieldName("priority");
+        condition.setOperator(Condition.Operator.IS_EMPTY);
+        condition.setType(Condition.Type.TEXT);
+        condition.setValue("");
+
+        var event = new CreateBookingEvent("131-1234567", new BigDecimal("43.0"), "MAL");
+        event.setPriority("H");
+        assertFalse(conditionService.evaluate(condition, event));
+    }
+
+    @Test
+    void shouldPassIsEmptyEvaluationWithNumber() {
+        var condition = new Condition();
+        condition.setFieldName("weight");
+        condition.setOperator(Condition.Operator.IS_EMPTY);
+        condition.setType(Condition.Type.NUMBER);
+        condition.setValue("");
+
+        var event = new CreateBookingEvent("131-1234567", BigDecimal.ZERO, "MAL");
+        assertTrue(conditionService.evaluate(condition, event));
+    }
+
+    @Test
+    void shouldFailIsEmptyEvaluationWithNumber() {
+        var condition = new Condition();
+        condition.setFieldName("weight");
+        condition.setOperator(Condition.Operator.IS_EMPTY);
+        condition.setType(Condition.Type.NUMBER);
+        condition.setValue("");
+
+        var event = new CreateBookingEvent("131-1234567", BigDecimal.TEN, "MAL");
+        assertFalse(conditionService.evaluate(condition, event));
+    }
 }

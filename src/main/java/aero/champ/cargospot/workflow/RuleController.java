@@ -14,6 +14,7 @@ import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/rules")
 public class RuleController {
@@ -38,7 +39,7 @@ public class RuleController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<Rule> getRule(@PathVariable Long id) {
+    public EntityModel<Rule> getRule(@PathVariable String id) {
         Rule rule = ruleService.getRule(id).orElseThrow(() -> new RuleNotFoundException(id));
         return assembler.toModel(rule);
     }
@@ -52,7 +53,7 @@ public class RuleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRule(@PathVariable Long id) {
+    public ResponseEntity<?> deleteRule(@PathVariable String id) {
         ruleService.deleteRule(id);
         return ResponseEntity.noContent().build();
     }

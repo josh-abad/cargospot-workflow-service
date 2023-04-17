@@ -1,23 +1,19 @@
 package aero.champ.cargospot.workflow.domain.condition;
 
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
 
-@Entity
 public class Condition {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String fieldName;
 
     private String value;
 
-    @Enumerated(EnumType.STRING)
     private Type type;
 
-    @Enumerated(EnumType.STRING)
     private Operator operator;
 
     public String getFieldName() {

@@ -16,6 +16,6 @@ public class UpdateAllocAction implements Action {
         }
         String allocationCode = args[0];
         String id = args[1];
-        new RestTemplate().put("http://localhost:9998/cargospot/api/booking/v1/bookings/update-alloc/" + id, new AllocUpdate(allocationCode));
+        new RestTemplate().postForLocation("http://localhost:9998/cargospot/api/booking/v1/bookings/update-alloc/" + id, new AllocUpdate(allocationCode));
     }
 }

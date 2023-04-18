@@ -251,4 +251,18 @@ class ConditionServiceTest {
         var event = new CreateBookingEvent("131-1234567", BigDecimal.TEN, "MAL");
         assertFalse(conditionService.evaluate(condition, event));
     }
+
+    @Test
+    void shouldPassWhenValueIsField() {
+        var condition = new Condition();
+        condition.setFieldName("weight");
+        condition.setOperator(Condition.Operator.LESS_THAN);
+        condition.setType(Condition.Type.NUMBER);
+        condition.setValue("flightCapacity");
+        condition.setValueIsField(true);
+
+        var event = new CreateBookingEvent("131-1234567", BigDecimal.TEN, "MAL");
+        event.setFlightCapacity(new BigDecimal("11.0"));
+        assertTrue(conditionService.evaluate(condition, event));
+    }
 }

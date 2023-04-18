@@ -1,25 +1,27 @@
-package aero.champ.cargospot.workflow.service;
+package aero.champ.cargospot.workflow.domain.condition.expression;
 
 import aero.champ.cargospot.workflow.domain.condition.Condition;
-import aero.champ.cargospot.workflow.domain.event.*;
+import aero.champ.cargospot.workflow.domain.event.AbstractEvent;
 import aero.champ.cargospot.workflow.domain.event.fields.IField;
 import aero.champ.cargospot.workflow.domain.event.fields.NumberField;
 import aero.champ.cargospot.workflow.domain.event.fields.TextField;
-import aero.champ.cargospot.workflow.repository.ConditionRepository;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
-@Service
-public class ConditionService {
+public class SimpleExpression implements Expression {
 
-    private final ConditionRepository conditionRepository;
+    private final Condition condition;
 
-    public ConditionService(ConditionRepository conditionRepository) {
-        this.conditionRepository = conditionRepository;
+    private SimpleExpression(Condition condition) {
+        this.condition = condition;
     }
 
-    public boolean evaluate(Condition condition, AbstractEvent event) {
+    public static SimpleExpression of(Condition condition) {
+        return new SimpleExpression(condition);
+    }
+
+    @Override
+    public boolean evaluate(AbstractEvent event) {
         var field = event.getField(condition.getFieldName());
         var value = getValue(condition, event);
         return switch (condition.getOperator()) {
@@ -29,15 +31,6 @@ public class ConditionService {
             case LESS_THAN -> field.isLessThan(value);
             case IS_EMPTY -> field.isEmpty();
         };
-    }
-
-    public boolean evaluateAll(Iterable<Condition> conditions, AbstractEvent event) {
-        for (var condition : conditions) {
-            if (!evaluate(condition, event)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     @SuppressWarnings("unchecked")

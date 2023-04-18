@@ -15,6 +15,8 @@ public class Rule {
 
     private String eventName;
 
+    private String actionName;
+
     private List<Condition> conditions;
 
     public String getId() {
@@ -31,5 +33,9 @@ public class Rule {
 
     public List<Condition> getConditions() {
         return new ArrayList<>(conditions);
+    }
+
+    public String getActionName() {
+        return actionName;
     }
 }

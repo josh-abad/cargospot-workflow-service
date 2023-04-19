@@ -77,4 +77,8 @@ public class CreateBookingEvent extends AbstractEvent {
     public void setFlightCapacity(BigDecimal flightCapacity) {
         this.flightCapacity = flightCapacity;
     }
+
+    public int getId() {
+        return id;
+    }
 }

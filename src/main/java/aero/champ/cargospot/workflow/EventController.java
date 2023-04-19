@@ -1,7 +1,5 @@
 package aero.champ.cargospot.workflow;
 
-import aero.champ.cargospot.workflow.domain.actions.SendEmailAction;
-import aero.champ.cargospot.workflow.domain.actions.UpdateAllocAction;
 import aero.champ.cargospot.workflow.domain.event.CreateBookingEvent;
 import aero.champ.cargospot.workflow.domain.event.EventHandler;
 import aero.champ.cargospot.workflow.domain.event.dto.EventDto;

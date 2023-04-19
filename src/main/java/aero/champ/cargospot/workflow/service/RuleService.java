@@ -1,6 +1,5 @@
 package aero.champ.cargospot.workflow.service;
 
-import aero.champ.cargospot.workflow.domain.actions.Action;
 import aero.champ.cargospot.workflow.domain.actions.SendEmailAction;
 import aero.champ.cargospot.workflow.domain.actions.UpdateAllocAction;
 import aero.champ.cargospot.workflow.domain.event.AbstractEvent;
@@ -22,26 +21,21 @@ public class RuleService {
 
     private final UpdateAllocAction updateAllocAction;
 
-    public RuleService(RuleRepository ruleRepository, ConditionService conditionService, SendEmailAction sendEmailAction, UpdateAllocAction updateAllocAction) {
+    private final ActionService actionService;
+
+    public RuleService(RuleRepository ruleRepository, ConditionService conditionService, SendEmailAction sendEmailAction, UpdateAllocAction updateAllocAction, ActionService actionService) {
         this.ruleRepository = ruleRepository;
         this.conditionService = conditionService;
         this.sendEmailAction = sendEmailAction;
         this.updateAllocAction = updateAllocAction;
+        this.actionService = actionService;
     }
 
     public void executeRulesFor(AbstractEvent event) {
         List<Rule> rules = ruleRepository.findByEventName(event.eventName());
         for (Rule rule : rules) {
             if (conditionService.evaluateAll(rule.getConditions(), event)) {
-                if (rule.getActionName().equals(Action.SEND_EMAIL)) {
-                    sendEmailAction.run(
-                            "joshuatimothy.abad@champ.aero",
-                            "Action Executed",
-                            String.format("Rule Name: %s ", rule.getRuleName())
-                    );
-                } else if (rule.getActionName().equals(Action.UPDATE_ALLOC)) {
-                    updateAllocAction.run("KK", (String) event.getField("id").value());
-                }
+                actionService.executeActionsFor(rule);
             }
         }
     }

@@ -1,6 +1,8 @@
 package aero.champ.cargospot.workflow.service;
 
+import aero.champ.cargospot.workflow.domain.actions.ActionForm;
 import aero.champ.cargospot.workflow.domain.actions.dto.ActionDto;
+import aero.champ.cargospot.workflow.domain.rule.Rule;
 import aero.champ.cargospot.workflow.processor.ActionProcessor;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,11 @@ public class ActionService {
 
     public List<ActionDto> getAllActions() {
         return actionProcessor.findAllActions();
+    }
+
+    public void executeActionsFor(Rule rule) {
+        for (ActionForm action : rule.getActions()) {
+            actionProcessor.executeAction(action);
+        }
     }
 }

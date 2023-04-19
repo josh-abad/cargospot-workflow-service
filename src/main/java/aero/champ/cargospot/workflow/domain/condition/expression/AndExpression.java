@@ -2,13 +2,14 @@ package aero.champ.cargospot.workflow.domain.condition.expression;
 
 import aero.champ.cargospot.workflow.domain.event.AbstractEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AndExpression extends CompositeExpression {
 
-    public AndExpression(Expression... expressions) {
+    private AndExpression(Expression... expressions) {
         super(expressions);
+    }
+
+    public static AndExpression of(Expression... expressions) {
+        return new AndExpression(expressions);
     }
 
     @Override

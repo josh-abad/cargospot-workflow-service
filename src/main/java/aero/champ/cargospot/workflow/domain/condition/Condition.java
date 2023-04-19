@@ -22,6 +22,22 @@ public class Condition {
 
     private Condition next;
 
+    public Condition() {
+
+    }
+
+    public Condition(String fieldName, Operator operator, Type type, String value) {
+        this(fieldName, operator, type, value, false);
+    }
+
+    public Condition(String fieldName, Operator operator, Type type, String value, boolean valueIsField) {
+        this.fieldName = fieldName;
+        this.operator = operator;
+        this.type = type;
+        this.value = value;
+        this.valueIsField = valueIsField;
+    }
+
     public String getFieldName() {
         return fieldName;
     }

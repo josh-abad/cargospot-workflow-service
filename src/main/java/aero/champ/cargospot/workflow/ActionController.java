@@ -1,7 +1,6 @@
 package aero.champ.cargospot.workflow;
 
 import aero.champ.cargospot.workflow.domain.actions.dto.ActionDto;
-import aero.champ.cargospot.workflow.domain.event.dto.EventDto;
 import aero.champ.cargospot.workflow.service.ActionService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -18,9 +18,9 @@ public interface Expression {
             Expression curr = SimpleExpression.of(condition);
             switch (condition.getRelation()) {
                 case AND:
-                    expressions.add(new AndExpression(SimpleExpression.of(condition), SimpleExpression.of(condition.getNext())));
+                    expressions.add(AndExpression.of(SimpleExpression.of(condition), SimpleExpression.of(condition.getNext())));
                 case OR:
-                    expressions.add(new OrExpression(SimpleExpression.of(condition), SimpleExpression.of(condition.getNext())));
+                    expressions.add(OrExpression.of(SimpleExpression.of(condition), SimpleExpression.of(condition.getNext())));
             }
             condition = condition.getNext();
         }

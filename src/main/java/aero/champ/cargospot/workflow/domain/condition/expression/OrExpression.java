@@ -7,8 +7,12 @@ import java.util.List;
 
 public class OrExpression extends CompositeExpression {
 
-    public OrExpression(Expression... expressions) {
+    private OrExpression(Expression... expressions) {
         super(expressions);
+    }
+
+    public static OrExpression of(Expression... expressions) {
+        return new OrExpression(expressions);
     }
 
     @Override

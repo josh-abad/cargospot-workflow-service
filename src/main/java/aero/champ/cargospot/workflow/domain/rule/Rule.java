@@ -1,5 +1,6 @@
 package aero.champ.cargospot.workflow.domain.rule;
 
+import aero.champ.cargospot.workflow.domain.actions.ActionForm;
 import aero.champ.cargospot.workflow.domain.condition.Condition;
 import org.springframework.data.annotation.Id;
 
@@ -15,7 +16,7 @@ public class Rule {
 
     private String eventName;
 
-    private String actionName;
+    private List<ActionForm> actions;
 
     private List<Condition> conditions;
 
@@ -35,7 +36,7 @@ public class Rule {
         return new ArrayList<>(conditions);
     }
 
-    public String getActionName() {
-        return actionName;
+    public List<ActionForm> getActions() {
+        return new ArrayList<>(actions);
     }
 }
